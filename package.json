@@ -1,0 +1,17 @@
+{
+  "name": "rpl-week-2",
+  "version": "1.0.0",
+  "description": "express & json",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
