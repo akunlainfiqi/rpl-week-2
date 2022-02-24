@@ -1,9 +1,15 @@
 const express = require('express');
+const mongoose = require('mongoose');
+require("dotenv").config();
 
 const PORT = process.env.PORT || 8080;
 const app = express();
 const routes = {
     users: require('./routes/users'),
+}
+
+const connectDB = (url)=>{
+    return mongoose.connect(url);
 }
 
 function asyncHandler(handler){
@@ -36,19 +42,28 @@ for (const [routeName, routeController] of Object.entries(routes)){
         );
     }
     if(routeController.update){
-        app.put(
+        app.patch(
             `/${routeName}/:id`,
             asyncHandler(routeController.update)
         );
     }
-    if(routeController.del){
+    if(routeController.remove){
         app.delete(
             `/${routeName}/:id`,
-            asyncHandler(routeController.del)
+            asyncHandler(routeController.remove)
         )
     }
 }
 
-app.listen(PORT, () =>{
-    console.log(`listening on port ${PORT}`)
-})
+const start = async()=>{
+    try {
+        await connectDB(process.env.DB_URL);
+        app.listen(PORT, () =>{
+            console.log(`listening on port ${PORT}`)
+        })
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+start();
